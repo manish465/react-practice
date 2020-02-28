@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
-import Person from "./Person/Person";
+import Persons from "../Components/Persons/Persons";
 import Radium from "radium";
+import Cockpit from "../Components/Cockpit/Cockpit";
 
 class App extends Component {
     state = {
@@ -44,51 +45,27 @@ class App extends Component {
     };
 
     render() {
-        const style = {
-            backgroundColor: "green",
-            color: "white",
-            font: "inherit",
-            border: "3px solid blue",
-            padding: "8px",
-            cursor: "pointer",
-            ":hover": {
-                backgroundColor: "lightblue",
-                color: "black",
-            },
-        };
-
         let persons = null;
 
         if (this.state.showPerson) {
             persons = (
                 <div>
-                    {this.state.persons.map((person, index) => (
-                        <Person
-                            key={person.id}
-                            name={person.name}
-                            age={person.age}
-                            uponClick={() => this.deletePersonHandler(index)}
-                            changeInput={event =>
-                                this.onChangeHandler(event, person.id)
-                            }
-                        />
-                    ))}
+                    <Persons
+                        persons={this.state.persons}
+                        clicked={this.deletePersonHandler}
+                        changed={this.onChangeHandler}
+                    />
                 </div>
             );
-            style.backgroundColor = "grey";
-            style[":hover"] = {
-                backgroundColor: "gold",
-                color: "black",
-            };
         }
 
         return (
             <div className="App">
-                <h1>Hi I am a React app</h1>
-                <p>This is really working!</p>
-                <button style={style} onClick={this.togglePersonHandler}>
-                    Toggle Person
-                </button>
+                <Cockpit
+                    title={this.props.title}
+                    toggle={this.togglePersonHandler}
+                    showPerson={this.state.showPerson}
+                />
                 {persons}
             </div>
         );
